@@ -30,3 +30,30 @@ declare module 'wp_alerts/routes' {
 
   export function createRoutes(parent: AnyRoute): readonly AnyRoute[];
 }
+
+declare module 'wp_shared/http_service' {
+  export class ApiError extends Error {
+    status: number;
+    code: string;
+    details?: unknown;
+  }
+  export const http: {
+    get<T>(path: string, init?: RequestInit): Promise<T>;
+    post<T>(path: string, body?: unknown, init?: RequestInit): Promise<T>;
+    put<T>(path: string, body?: unknown, init?: RequestInit): Promise<T>;
+    patch<T>(path: string, body?: unknown, init?: RequestInit): Promise<T>;
+    delete<T>(path: string, init?: RequestInit): Promise<T>;
+  };
+}
+
+declare module 'wp_shared/constants' {
+  export const API_ENDPOINTS: {
+    readonly AUTH: {
+      readonly LOGIN: '/auth/login';
+      readonly LOGOUT: '/auth/logout';
+      readonly ME: '/auth/me';
+      readonly REFRESH_TOKEN: '/auth/refresh-token';
+    };
+    readonly HEALTH: '/health';
+  };
+}

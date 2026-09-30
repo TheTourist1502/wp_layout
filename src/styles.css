@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* HSL triplets from DESIGN.md. Brand colors change here only. */
+:root {
+  --primary: 15 52% 58%;
+  --primary-active: 15 46% 45%;
+  --primary-disabled: 30 22% 87%;
+  --on-primary: 0 0% 100%;
+  --accent-teal: 168 39% 54%;
+  --accent-amber: 32 76% 63%;
+  --success: 134 39% 54%;
+  --warning: 43 80% 46%;
+  --error: 0 53% 52%;
+  --surface-dark: 40 7% 9%;
+  --surface-dark-elevated: 36 7% 14%;
+  --on-dark: 48 33% 97%;
+  --on-dark-soft: 42 5% 61%;
+  --canvas: 48 33% 97%;
+  --surface-soft: 37 39% 94%;
+  --surface-card: 39 35% 90%;
+  --hairline: 30 22% 87%;
+  --hairline-soft: 35 23% 90%;
+  --ink: 60 3% 8%;
+  --body: 60 3% 23%;
+  --muted: 45 4% 41%;
+  --muted-soft: 45 5% 53%;
+}
+
+.dark {
+  --canvas: 40 7% 9%;
+  --surface-soft: 45 7% 11%;
+  --surface-card: 36 7% 14%;
+  --hairline: 36 7% 20%;
+  --hairline-soft: 36 7% 16%;
+  --ink: 48 33% 97%;
+  --body: 48 10% 82%;
+  --muted: 42 5% 61%;
+  --muted-soft: 42 4% 50%;
+  --surface-dark: 45 7% 6%;
+  /* #c64545 is 3.2:1 on dark cards; lift it to pass AA for loss figures. */
+  --error: 7 68% 62%;
+}
+
+/* #5db872 is 2.3:1 on cream; gain figures are text, so light mode uses a deeper green (4.8:1). */
+:root:not(.dark) {
+  --success: 137 45% 34%;
+}
+
+html {
+  transition: background-color 0.3s, color 0.3s;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    transition: none;
+  }
+}
+
+body {
+  @apply bg-canvas font-sans text-body-md text-body;
+}
+
+/* DESIGN.md has no scrollbar entry: hairline pill on a transparent track, no hover change. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--hairline));
+  border: 2px solid transparent;
+  border-radius: 9999px;
+  background-clip: padding-box;
+}
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--hairline)) transparent;
+  }
+}

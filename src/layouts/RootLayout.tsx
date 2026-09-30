@@ -1,28 +1,23 @@
-import { Link, Outlet } from '@tanstack/react-router';
-import { Suspense } from 'react';
-import { Card } from 'wp_shared/Card';
+import { Outlet } from '@tanstack/react-router';
+import { Suspense, useState } from 'react';
 
-import { menuItems } from '../constants/menuItems';
+import Header from '../components/Header';
+import SideNav from '../components/SideNav';
 
 export default function RootLayout() {
+  const [navOpen, setNavOpen] = useState(false);
+
   return (
-    <>
-      <header>
-        <Card title="WealthPulse">
-          <nav>
-            {menuItems.map((item) => (
-              <Link key={item.to} to={item.to}>
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-        </Card>
-      </header>
-      <main>
-        <Suspense fallback={<p>Loading…</p>}>
-          <Outlet />
-        </Suspense>
-      </main>
-    </>
+    <div className="h-screen w-screen overflow-hidden bg-canvas">
+      <Header navOpen={navOpen} onToggleNav={() => setNavOpen((o) => !o)} />
+      <div className="flex h-[calc(100vh-4rem-1px)]">
+        <SideNav open={navOpen} onNavigate={() => setNavOpen(false)} />
+        <main className="relative w-[calc(100vw-14rem-1px)] overflow-y-auto overflow-x-hidden p-6 md:p-8">
+          <Suspense fallback={<p role="status" className="text-muted">Loading…</p>}>
+            <Outlet />
+          </Suspense>
+        </main>
+      </div>
+    </div>
   );
 }

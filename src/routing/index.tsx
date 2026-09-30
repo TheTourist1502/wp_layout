@@ -1,9 +1,14 @@
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 
+import { store } from '../store';
 import { buildRouteTree } from './routeConfig';
 
 export async function createAppRouter() {
-  return createRouter({ routeTree: await buildRouteTree() });
+  return createRouter({
+    routeTree: await buildRouteTree(),
+    context: { store },
+    defaultPendingMs: 200,
+  });
 }
 
 type AppRouter = Awaited<ReturnType<typeof createAppRouter>>;

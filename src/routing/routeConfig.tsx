@@ -1,12 +1,15 @@
-import { createRootRoute, createRoute, redirect } from '@tanstack/react-router';
+import { createRootRouteWithContext, createRoute, redirect } from '@tanstack/react-router';
 
 import { APP_ROUTES } from '../constants/routes';
 import BlankLayout from '../layouts/BlankLayout';
 import RootLayout from '../layouts/RootLayout';
+import type { store as appStore } from '../store';
+import { restoreSession } from '../store/authSlice';
+import { safeRedirect } from '../utils/validation';
 import { lazyComponents } from './lazyComponents';
 import { loadRemoteRoutes } from './remoteRoutes';
 
-export const rootRoute = createRootRoute({
+export const rootRoute = createRootRouteWithContext<{ store: typeof appStore }>()({
   notFoundComponent: lazyComponents.LazyNotFoundPage,
 });
 
@@ -15,6 +18,19 @@ const appLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   id: 'app',
   component: RootLayout,
+  // Every protected route sits under this layout, so this is the one auth gate.
+  // After a reload Redux is empty, so ask the server (/auth/me via the session cookie) first.
+  beforeLoad: async ({ context: { store }, location }) => {
+    await store.dispatch(restoreSession());
+    if (!store.getState().auth.isAuthenticated) {
+      throw redirect({ to: APP_ROUTES.LOGIN.navigate, search: { redirect: location.href } });
+    }
+  },
+  pendingComponent: () => (
+    <p role="status" className="p-8 text-muted">
+      Checking session…
+    </p>
+  ),
 });
 const blankLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -34,6 +50,14 @@ const loginRoute = createRoute({
   getParentRoute: () => blankLayoutRoute,
   path: APP_ROUTES.LOGIN.path,
   component: lazyComponents.LazyLoginPage,
+  validateSearch: (search: Record<string, unknown>) => ({
+    redirect: safeRedirect(search.redirect, APP_ROUTES.DASHBOARD.navigate),
+  }),
+  // Signed-in users skip the form.
+  beforeLoad: async ({ context: { store }, search }) => {
+    await store.dispatch(restoreSession());
+    if (store.getState().auth.isAuthenticated) throw redirect({ to: search.redirect });
+  },
 });
 
 const settingsRoute = createRoute({
