@@ -1,7 +1,7 @@
 import { type AnyRoute, createRoute } from '@tanstack/react-router';
 
 import { APP_ROUTES } from '../constants/routes';
-import ModuleErrorPage from '../pages/ModuleErrorPage';
+import ModuleErrorPage from '../pages/module-error-page';
 
 type RouteFactory = { createRoutes: (parent: AnyRoute) => readonly AnyRoute[] };
 

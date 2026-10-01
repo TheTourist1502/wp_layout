@@ -1,13 +1,13 @@
 import { createRootRouteWithContext, createRoute, redirect } from '@tanstack/react-router';
 
 import { APP_ROUTES } from '../constants/routes';
-import BlankLayout from '../layouts/BlankLayout';
-import RootLayout from '../layouts/RootLayout';
+import BlankLayout from '../layouts/blank-layout';
+import RootLayout from '../layouts/root-layout';
 import type { store as appStore } from '../store';
-import { restoreSession } from '../store/authSlice';
+import { restoreSession } from '../store/auth-slice';
 import { safeRedirect } from '../utils/validation';
-import { lazyComponents } from './lazyComponents';
-import { loadRemoteRoutes } from './remoteRoutes';
+import { lazyComponents } from './lazy-components';
+import { loadRemoteRoutes } from './remote-routes';
 
 export const rootRoute = createRootRouteWithContext<{ store: typeof appStore }>()({
   notFoundComponent: lazyComponents.LazyNotFoundPage,

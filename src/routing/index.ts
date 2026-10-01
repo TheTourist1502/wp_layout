@@ -1,7 +1,7 @@
-import { createRouter, RouterProvider } from '@tanstack/react-router';
+import { createRouter } from '@tanstack/react-router';
 
 import { store } from '../store';
-import { buildRouteTree } from './routeConfig';
+import { buildRouteTree } from './route-config';
 
 export async function createAppRouter() {
   return createRouter({
@@ -17,8 +17,4 @@ declare module '@tanstack/react-router' {
   interface Register {
     router: AppRouter;
   }
-}
-
-export default function RoutingConfig({ router }: { router: AppRouter }) {
-  return <RouterProvider router={router} />;
 }

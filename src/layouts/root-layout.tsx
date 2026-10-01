@@ -1,8 +1,8 @@
 import { Outlet } from '@tanstack/react-router';
 import { Suspense, useState } from 'react';
 
-import Header from '../components/Header';
-import SideNav from '../components/SideNav';
+import Header from '../components/header';
+import SideNav from '../components/side-nav';
 
 export default function RootLayout() {
   const [navOpen, setNavOpen] = useState(false);

@@ -9,7 +9,7 @@ the sidebar. Exposes nothing.
 src/
 ├── constants/
 │   ├── routes.ts          APP_ROUTES for host pages + each remote's base path
-│   └── menuItems.ts       sidebar/header nav entries
+│   └── menu-items.ts       sidebar/header nav entries
 ├── layouts/
 │   ├── RootLayout.tsx     header + nav + <Outlet/>; wraps every protected route
 │   └── BlankLayout.tsx    bare <Outlet/>; auth and error pages
@@ -20,7 +20,7 @@ src/
 │   └── ModuleErrorPage.tsx  shown when a remote's remoteEntry fails to load
 ├── routing/
 │   ├── routeConfig.tsx    route tree: root → app / blank layouts → host + remote routes
-│   ├── remoteRoutes.tsx   REMOTE_MODULES registry; loads each remote's `./routes`
+│   ├── remote-routes.tsx   REMOTE_MODULES registry; loads each remote's `./routes`
 │   ├── lazyComponents.ts  React.lazy() host pages
 │   └── index.tsx          createAppRouter() + <RouterProvider/>, Register type
 ├── index.tsx              entry: builds router, then renders with QueryClientProvider
@@ -36,10 +36,10 @@ Nothing (`exposes: {}`). The host is never consumed.
 | Remote | Module | Export | Used in | Env var |
 |---|---|---|---|---|
 | `wp_shared` | `wp_shared/Card` | `Card` | layouts, host pages | `VITE_WP_SHARED_URL` |
-| `wp_dashboard` | `wp_dashboard/routes` | `createRoutes(parent)` | `routing/remoteRoutes.tsx` | `VITE_WP_DASHBOARD_URL` |
-| `wp_portfolio` | `wp_portfolio/routes` | `createRoutes(parent)` | `routing/remoteRoutes.tsx` | `VITE_WP_PORTFOLIO_URL` |
-| `wp_watchlist` | `wp_watchlist/routes` | `createRoutes(parent)` | `routing/remoteRoutes.tsx` | `VITE_WP_WATCHLIST_URL` |
-| `wp_alerts` | `wp_alerts/routes` | `createRoutes(parent)` | `routing/remoteRoutes.tsx` | `VITE_WP_ALERTS_URL` |
+| `wp_dashboard` | `wp_dashboard/routes` | `createRoutes(parent)` | `routing/remote-routes.tsx` | `VITE_WP_DASHBOARD_URL` |
+| `wp_portfolio` | `wp_portfolio/routes` | `createRoutes(parent)` | `routing/remote-routes.tsx` | `VITE_WP_PORTFOLIO_URL` |
+| `wp_watchlist` | `wp_watchlist/routes` | `createRoutes(parent)` | `routing/remote-routes.tsx` | `VITE_WP_WATCHLIST_URL` |
+| `wp_alerts` | `wp_alerts/routes` | `createRoutes(parent)` | `routing/remote-routes.tsx` | `VITE_WP_ALERTS_URL` |
 
 Types for all five live in `src/remotes.d.ts`. The host types remote routes loosely
 (`AnyRoute[]`); each remote keeps full type safety for its own links and params.
@@ -107,8 +107,8 @@ second copy of React or the router breaks hooks and context at runtime.
 1. Add it to `remotes` in `vite.config.ts` and its URL to `.env` / `.env.example`.
 2. Add `declare module '<name>/routes'` to `src/remotes.d.ts`.
 3. Add its base path to `APP_ROUTES` and an entry to `REMOTE_MODULES` in
-   `src/routing/remoteRoutes.tsx`. The `import('<name>/routes')` string must stay literal.
-4. Add a nav entry to `src/constants/menuItems.ts` if it belongs in the sidebar.
+   `src/routing/remote-routes.tsx`. The `import('<name>/routes')` string must stay literal.
+4. Add a nav entry to `src/constants/menu-items.ts` if it belongs in the sidebar.
 
 ## Not built yet
 

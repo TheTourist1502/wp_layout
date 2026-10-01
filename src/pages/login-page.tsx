@@ -2,7 +2,7 @@ import { getRouteApi, useNavigate } from '@tanstack/react-router';
 import clsx from 'clsx';
 import { type FormEvent, useState } from 'react';
 
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../hooks/use-auth';
 import { validateLogin } from '../utils/validation';
 
 const route = getRouteApi('/blank/auth/login');

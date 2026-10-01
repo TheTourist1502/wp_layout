@@ -2,7 +2,7 @@ import { Icon } from '@iconify/react';
 import { Link } from '@tanstack/react-router';
 import clsx from 'clsx';
 
-import { menuItems } from '../constants/menuItems';
+import { menuItems } from '../constants/menu-items';
 
 export default function SideNav({ open, onNavigate }: { open: boolean; onNavigate: () => void }) {
   return (

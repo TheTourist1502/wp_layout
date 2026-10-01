@@ -1,10 +1,10 @@
 import { useNavigate } from '@tanstack/react-router';
 
-import type { LoginInput } from '../api/authService';
+import type { LoginInput } from '../api/auth-service';
 import { APP_ROUTES } from '../constants/routes';
-import { queryClient } from '../queryClient';
+import { queryClient } from '../query-client';
 import { useAppDispatch, useAppSelector } from '../store';
-import { login, logout } from '../store/authSlice';
+import { login, logout } from '../store/auth-slice';
 
 export function useAuth() {
   const dispatch = useAppDispatch();

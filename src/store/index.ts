@@ -1,7 +1,7 @@
 import { configureStore, type UnknownAction } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 
-import auth from './authSlice';
+import auth from './auth-slice';
 
 export const store = configureStore({
   reducer: { auth },

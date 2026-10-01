@@ -1,5 +1,5 @@
-import { http } from 'wp_shared/http_service';
 import { API_ENDPOINTS } from 'wp_shared/constants';
+import { http } from 'wp_shared/http_service';
 
 export type User = {
   id: string;
